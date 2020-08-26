@@ -1,7 +1,7 @@
 /*
- CS 1347 Summer 2020
+ CS 1347 Fall 2020
  
- @author Your Name Here
+ @author Tyler Harrison
  
  I started with Example 8-11 in the Malik textbook
  */
@@ -162,24 +162,3 @@ void checkIfMagic(int matrix[][COLUMNS])
         printMatrix(matrix);
     }
 }
-/*
-void largestInRows(int matrix[][NUMBER_OF_COLUMNS], 
-                   int numOfRows)
-{
-    int row, col;
-    int largest;
-
-         //Largest element in each row
-    for (row = 0; row < numOfRows; row++)
-    {
-        largest = matrix[row][0]; //Assume that the first element
-                                  //of the row is the largest.
-        for (col = 1; col < NUMBER_OF_COLUMNS; col++)
-            if (largest < matrix[row][col])
-                largest = matrix[row][col];
-
-        cout << "The largest element of row " << (row + 1) 
-             << " = " << largest << endl;
-    }
-}
-*/
