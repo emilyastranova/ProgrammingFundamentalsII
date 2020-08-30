@@ -1,16 +1,22 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
-struct intStruct
+struct testStruct
 {
-    int int1 = 10;
-    int int2 = 20;
+    void changeX1(int &num)
+    {
+        num = 11;
+    }
 };
 
 int main()
 {
-    intStruct testStruck;
-    cout << testStruck.int2;
+    testStruct tStruct;
+    int x1 = 10;
+    tStruct.changeX1(x1);
+    cout << x1;
     return 0;
 }
+
