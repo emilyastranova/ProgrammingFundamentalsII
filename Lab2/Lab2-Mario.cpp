@@ -61,20 +61,90 @@ void printCharacter(player& character) {
     cout << "\t Y Position: \t\t" << character.y_position << "\n";
     
     // Print Special Items
-    cout << "\t Character big?: \t" << character.special << "\n";
-    cout << "\t Character special?: \t" << character.big << "\n";
+    cout << "\t Character big?: \t" << character.big << "\n";
+    cout << "\t Character special?: \t" << character.special << "\n";
     for (int i = 0; i < 5; i++)
      cout << "\t Special_Item[" << i << "]: \t" << character.special_items[i] << "\n";
+    cout << endl;
+}
+
+void movePlayer(player& character, string direction)
+{
+    if(direction == "right")
+        character.x_position += 1;
+    else
+        character.x_position -= 1;
+    printCharacter(character);
+}
+
+void jump(player& character)
+{
+    cout << "\t Name: \t\t\t" << character.playerName << "\n";
+    for(int x = 0; x < 3; x++)
+    {
+        cout << "\t Y Position: \t\t" << character.y_position << "\n";
+        character.y_position += 1;
+    }
+    for(int x = 2; x >= 0; x--)
+    {
+        cout << "\t Y Position: \t\t" << character.y_position << "\n";
+        character.y_position -= 1;
+    }
+    cout << endl;
+}
+
+void setBig(player& character, bool isBig)
+{
+    character.big = isBig;
+    printCharacter(character);
+}
+
+void parseCommand(player& character, string command)
+{
+    if(command == "help")
+        cout << "Commands: stats, left, right, jump, grow, shrink, quit" << endl << endl;
+    else if(command == "right")
+        movePlayer(character, command);
+    else if(command == "left")
+        movePlayer(character, command);
+    else if(command == "jump")
+        jump(character);
+    else if(command == "grow")
+        setBig(character, true);
+    else if(command == "shrink")
+        setBig(character, false);
+    else if(command == "stats")
+        printCharacter(character);
+    else 
+        cout << "Invalid command. ";
+}
+
+void commandLoop(player& character)
+{
+    printCharacter(character);
+    bool loop = true;
+    string command = "";
+    while(loop)
+    {
+        cout << "Enter a command (or type \"help\"): ";
+        cin >> command;
+        cout << endl;
+        if(command == "quit") // Check if we need to quit application before parsing
+            loop = false;
+
+        else
+            parseCommand(character, command); // Send command to function filled with conditional statements
+
+    }
 }
 
 int main () {
     player Mario;
     player Luigi;
+    player &currentPlayer = Mario;
     initilaize_variables(Mario, "Mario");
     initilaize_variables(Luigi, "Luigi");
-    
-    printCharacter(Mario);
+    commandLoop(currentPlayer);
 
-    
     return 0;
 }
