@@ -167,7 +167,7 @@ void toggleSpecial(player &character) // Go to next level
 void parseCommand(player &character, string command) // Read input from user and find corresponding function
 {
     if (command == "help")
-        cout << "Commands: stats, left, right, jump, grow, shrink, coin, levelup, die, nextlevel, clearitems, quit" << endl
+        cout << "Commands: stats, left, right, jump, grow, shrink, coin, levelup, die, nextlevel, clearitems, special, restart, quit" << endl
              << endl;
     else if (command == "right")
         movePlayer(character, command);
