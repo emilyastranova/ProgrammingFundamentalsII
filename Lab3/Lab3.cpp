@@ -16,6 +16,7 @@
 */
 
 using namespace std;
+
 class baseballPlayer
 {
     string name;
@@ -33,6 +34,7 @@ class baseballPlayer
     int textWidth = 45;
 
 public:
+    baseballPlayer(){};
     baseballPlayer(string namePar, int singlesPar, int doublesPar, int triplesPar, int plateAppPar, int appearPerHRPar,
                    double batAvgPar, int bOBPar, double batAvgInPlayPar, double walkToSOPar, int baseRunsPar)
     {
@@ -65,6 +67,7 @@ public:
         printStat("BABIP - Batting average on balls in play: ", battingAverageInPlay);
         printStat("BB/K - Walk-to-strikout ratio: ", walkToStrikeoutRatio);
         printStat("BsR - Base runs: ", baseRuns);
+        cout << endl;
     }
     void printStat(string s, string i) // For the name
     {
@@ -75,13 +78,70 @@ public:
     void printStat(string s, int i) // For integers
     {
         cout << setw(textWidth) << left << s << i << endl;
-        cout << "---------------------------------------------------" << endl;
     }
     void printStat(string s, double i) // For longs
     {
         cout << setw(textWidth) << left << s << i << endl;
-        cout << "---------------------------------------------------" << endl;
     }
+    string getName(){
+        return name;
+    }
+};
+
+class baseballTeam
+{
+    baseballPlayer team[3];
+    int teamSize = 3;
+    public:
+        baseballTeam(){};
+        baseballTeam(baseballPlayer * players)
+        {
+            for(int x = 0; x < teamSize; x++)
+                team[x] = players[x];
+        };
+        ~baseballTeam(){};
+        void getUserInput()
+        {
+            string name;
+            int singles;
+            int doubles;
+            int triples;
+            int plateAppearances;
+            int appearancesPerHR;
+            double battingAverage;
+            int baseOnBalls;
+            double battingAverageInPlay;
+            double walkToStrikeoutRatio;
+            int baseRuns;
+            for(int x = 0; x < teamSize; x++)
+            {
+                // Read in from user input
+                cout << "Player #" << x+1 << endl << endl;
+                cout << "Player Name: "; getline(cin, name);
+                cout << "1B - Single: "; cin >> singles;
+                cout << "2B - Double: "; cin >> doubles;
+                cout << "3B - Triple: "; cin >> triples;
+                cout << "AB - At bat: "; cin >> plateAppearances;
+                cout << "AB/HR - At bats per home run: "; cin >> appearancesPerHR;
+                cout << "BA - Batting average: "; cin >> battingAverage;
+                cout << "BB - Base on balls: "; cin >> baseOnBalls;
+                cout << "BABIP - Batting average on balls in play: "; cin >> battingAverageInPlay;
+                cout << "BB/K - Walk-to-strikout ratio: "; cin >> walkToStrikeoutRatio;
+                cout << "BsR - Base runs: "; cin >> baseRuns;
+                cout << endl;
+                cin.ignore();
+                // Create new baseballPlayer
+                baseballPlayer temp = baseballPlayer(name, singles, doubles, triples, plateAppearances, appearancesPerHR, battingAverage,baseOnBalls,
+                                                    battingAverageInPlay,walkToStrikeoutRatio,baseRuns);
+                // Add player to team array
+                team[x] = temp;
+            }
+        }
+        void printTeamStats()
+        {
+            for(int i = 0; i < teamSize; i++)
+                team[i].printStats();
+        }
 };
 
 int main()
@@ -89,7 +149,12 @@ int main()
     //baseballPlayer(string namePar, int singlesPar, int doublesPar, int triplesPar, int plateAppPar,
     //int appearPerHRPar, long batAvgPar, int bOBPar, long batAvgInPlayPar, long walkToSOPar, int baseRunsPar)
 
-    baseballPlayer player = baseballPlayer("Craig Biggio", 43, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14);
-    player.printStats();
+    // baseballPlayer players[2] = {baseballPlayer("Craig Biggio", 43, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14), 
+    //                              baseballPlayer("Feg Liggio", 43, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14)};
+
+
+    baseballTeam team = baseballTeam();
+    team.getUserInput(); // For getting console input
+    team.printTeamStats();
     return 0;
 }
