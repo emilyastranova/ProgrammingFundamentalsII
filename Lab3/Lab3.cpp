@@ -93,6 +93,7 @@ class baseballTeam
     baseballPlayer team[3];
     int teamSize = 3;
     public:
+    bool isFilled = false;
         baseballTeam(){};
         baseballTeam(baseballPlayer * players)
         {
@@ -136,6 +137,25 @@ class baseballTeam
                 // Add player to team array
                 team[x] = temp;
             }
+            isFilled = true;
+        }
+
+        void loadFromFile()
+        {
+            cout << "\nUnder construction\n" << endl;
+        }
+
+        void editPlayer()
+        {
+            int selection = 0;
+            cout << "Which player would you like to edit?: " << endl;
+            for(int x = 0; x < sizeof(team); x++)
+            {
+                cout << "(" << x+1 << ") " << team[x].getName() << endl << endl;
+            }
+            cout << "Input selection: ";
+            cin >> selection;
+            exit(0);
         }
         void printTeamStats()
         {
@@ -144,15 +164,22 @@ class baseballTeam
         }
 };
 
+
 void displayMenu(baseballTeam team)
 {
-    int selection = 0;
+    int selection;
     cout << "Menu:" << endl;
     cout << "--------------------------" << endl;
-    cout << "(1) Input player names\n(2) Show player stats\n(3) Edit player stats\n(4) Exit program" << endl << endl;
+    cout << "(1) Input player names\n(2) Show player stats\n(3) Edit player stats\n(4) Load players from file\n(5) Exit program" << endl << endl;
     cout << "Input selection: ";
     cin >> selection;
     cin.ignore();
+
+    if(selection > 1 && selection < 4 && !team.isFilled) // Check to make sure teams filled in before displaying and editing
+    {
+        cout << "\nInput the teams first\n" << endl;
+        displayMenu(team);
+    }
 
     switch (selection)
     {
@@ -167,11 +194,16 @@ void displayMenu(baseballTeam team)
         break;
 
     case 3:
-        cout << "Under construction" << endl << endl;
+        team.editPlayer();
         displayMenu(team);
         break;
 
     case 4:
+        team.loadFromFile();
+        displayMenu(team);
+        break;
+
+    case 5:
         exit(0);
         break;
     
