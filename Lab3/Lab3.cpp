@@ -144,6 +144,44 @@ class baseballTeam
         }
 };
 
+void displayMenu(baseballTeam team)
+{
+    int selection = 0;
+    cout << "Menu:" << endl;
+    cout << "--------------------------" << endl;
+    cout << "(1) Input player names\n(2) Show player stats\n(3) Edit player stats\n(4) Exit program" << endl << endl;
+    cout << "Input selection: ";
+    cin >> selection;
+    cin.ignore();
+
+    switch (selection)
+    {
+    case 1:
+        team.getUserInput();
+        displayMenu(team);
+        break;
+    
+    case 2:
+        team.printTeamStats();
+        displayMenu(team);
+        break;
+
+    case 3:
+        cout << "Under construction" << endl << endl;
+        displayMenu(team);
+        break;
+
+    case 4:
+        exit(0);
+        break;
+    
+    default:
+        cout << "Enter a valid menu selection" << endl;
+        displayMenu(team);
+        break;
+    }
+}
+
 int main()
 {
     //baseballPlayer(string namePar, int singlesPar, int doublesPar, int triplesPar, int plateAppPar,
@@ -154,7 +192,6 @@ int main()
 
 
     baseballTeam team = baseballTeam();
-    team.getUserInput(); // For getting console input
-    team.printTeamStats();
+    displayMenu(team);
     return 0;
 }
