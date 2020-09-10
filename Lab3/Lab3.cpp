@@ -101,7 +101,6 @@ public:
     {
         cout << setw(textWidth) << left << s << i << endl;
     }
-    string getName(){return name;}
 
     void setName(string s){name = s;}
     void setSingles(int i){singles = i;}
@@ -114,12 +113,25 @@ public:
     void setBattingAverageInPlay(double i){battingAverageInPlay = i;}
     void setWalkToStrikeoutRatio(double i){walkToStrikeoutRatio = i;}
     void setBaseRuns(int i){baseRuns = i;}
+
+    string getName(){return name;}
+    int getSingles(){return singles;}
+    int getDoubles(){return doubles;}
+    int getTriples(){return triples;}
+    int getPlateAppearances(){return plateAppearances;}
+    int getAppearancesPerHR(){return appearancesPerHR;}
+    double getBattingAverage(){return battingAverage;}
+    int getBaseOnBalls(){return baseOnBalls;}
+    double getBattingAverageInPlay(){return battingAverageInPlay;}
+    double getWalkToStrikeoutRatio(){return walkToStrikeoutRatio;}
+    int getBaseRuns(){return baseRuns;}
+
 };
 
 class baseballTeam
 {
     baseballPlayer team[9];
-    int teamSize = 9; // Used 
+    int teamSize = 9;
     public:
     bool isFilled = false; // Detects whether team is empty or not for menu selection
         baseballTeam(){}; // Default constructor
@@ -219,6 +231,40 @@ class baseballTeam
             myfile.close();
             cout << "\nLoaded players successfully\n" << endl;
             isFilled = true;
+        }
+
+        void saveAllPlayers()
+        {
+            string name;
+            int singles;
+            int doubles;
+            int triples;
+            int plateAppearances;
+            int appearancesPerHR;
+            double battingAverage;
+            int baseOnBalls;
+            double battingAverageInPlay;
+            double walkToStrikeoutRatio;
+            int baseRuns;
+            ofstream outFile;
+            outFile.open("newPlayerData.txt"); 
+            for(int x = 0; x < teamSize; x++)
+            {
+                name = team[x].getName();
+                singles = team[x].getSingles();
+                doubles = team[x].getDoubles();
+                triples = team[x].getTriples();
+                plateAppearances = team[x].getPlateAppearances();
+                appearancesPerHR = team[x].getAppearancesPerHR();
+                battingAverage = team[x].getBattingAverage();
+                baseOnBalls = team[x].getBaseOnBalls();
+                battingAverageInPlay = team[x].getBattingAverageInPlay();
+                walkToStrikeoutRatio = team[x].getWalkToStrikeoutRatio();
+                baseRuns = team[x].getBaseRuns();
+                outFile << name << ", " << singles << ", " << doubles << ", " << triples << ", " << plateAppearances << ", " << appearancesPerHR << ", "
+                        << battingAverage << ", " << baseOnBalls << ", " << battingAverageInPlay << ", " << walkToStrikeoutRatio << ", " << baseRuns << "\n";
+            }
+            outFile.close();
         }
 
         void editPlayer()
@@ -325,7 +371,7 @@ void displayMenu(baseballTeam team)
     int selection;
     cout << "Menu:" << endl;
     cout << "--------------------------" << endl;
-    cout << "(1) Input player data\n(2) Show player stats\n(3) Edit player stats\n(4) Load player data from file\n(5) Exit program" << endl << endl;
+    cout << "(1) Input player data\n(2) Show player stats\n(3) Edit player stats\n(4) Load player data from file\n(5) Save to file\n(6) Exit program" << endl << endl;
     cout << "Input selection: ";
     cin >> selection;
     cin.ignore();
@@ -359,6 +405,11 @@ void displayMenu(baseballTeam team)
         break;
 
     case 5:
+        team.saveAllPlayers();
+        displayMenu(team);
+        break;
+
+    case 6:
         exit(0);
         break;
     

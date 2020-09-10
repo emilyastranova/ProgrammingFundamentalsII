@@ -19,6 +19,8 @@ int main () {
     int baseRuns;
 
     ifstream myfile;
+    ofstream outFile;
+    outFile.open("newPlayerData.txt");
     myfile.open ("playerData.txt");
     string text;
     getline(myfile, name, ',');
@@ -44,7 +46,13 @@ int main () {
     getline(myfile, tempVar);
     baseRuns = stoi(tempVar);
 
-    cout << text;
+    // Output the data
+
+    outFile << name << ", " << singles << ", " << doubles << ", " << triples << ", " << plateAppearances << ", " << appearancesPerHR << ", "
+                           << battingAverage << ", " << baseOnBalls << ", " << battingAverageInPlay << ", " << walkToStrikeoutRatio << ", " << baseRuns << "\n";
+
+                           
+    outFile.close();
     myfile.close();
     return 0;
 }
