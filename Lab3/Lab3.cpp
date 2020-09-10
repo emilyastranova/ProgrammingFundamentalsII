@@ -118,8 +118,8 @@ public:
 
 class baseballTeam
 {
-    baseballPlayer team[3];
-    int teamSize = 3; // Used 
+    baseballPlayer team[9];
+    int teamSize = 9; // Used 
     public:
     bool isFilled = false; // Detects whether team is empty or not for menu selection
         baseballTeam(){}; // Default constructor
