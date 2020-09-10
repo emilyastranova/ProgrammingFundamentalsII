@@ -31,7 +31,7 @@ class baseballPlayer
     double walkToStrikeoutRatio;
     int baseRuns;
 
-    int textWidth = 45;
+    int textWidth = 47;
 
 public:
     baseballPlayer(){};
@@ -69,6 +69,22 @@ public:
         printStat("BsR - Base runs: ", baseRuns);
         cout << endl;
     }
+    void printStatsNumbered()
+    {
+        int x = 1;
+        cout << "(" << x << ")  "; x++; printStat("Player Name: ", name);
+        cout << "(" << x << ")  "; x++; printStat("1B - Single: ", singles);
+        cout << "(" << x << ")  "; x++; printStat("2B - Double: ", doubles);
+        cout << "(" << x << ")  "; x++; printStat("3B - Triple: ", triples);
+        cout << "(" << x << ")  "; x++; printStat("AB - At bat: ", plateAppearances);
+        cout << "(" << x << ")  "; x++; printStat("AB/HR - At bats per home run: ", appearancesPerHR);
+        cout << "(" << x << ")  "; x++; printStat("BA - Batting average: ", battingAverage);
+        cout << "(" << x << ")  "; x++; printStat("BB - Base on balls: ", baseOnBalls);
+        cout << "(" << x << ")  "; x++; printStat("BABIP - Batting average on balls in play: ", battingAverageInPlay);
+        cout << "(" << x << ") "; x++; printStat("BB/K - Walk-to-strikout ratio: ", walkToStrikeoutRatio);
+        cout << "(" << x << ") "; x++; printStat("BsR - Base runs: ", baseRuns);
+        cout << endl;
+    }
     void printStat(string s, string i) // For the name
     {
         cout << s << i << endl;
@@ -83,25 +99,36 @@ public:
     {
         cout << setw(textWidth) << left << s << i << endl;
     }
-    string getName(){
-        return name;
-    }
+    string getName(){return name;}
+
+    void setName(string s){name = s;}
+    void setSingles(int i){singles = i;}
+    void setDoubles(int i){doubles = i;}
+    void setTriples(int i){triples = i;}
+    void setPlateAppearances(int i){plateAppearances = i;}
+    void setAppearancesPerHR(int i){appearancesPerHR = i;}
+    void setBattingAverage(double i){battingAverage = i;}
+    void setBaseOnBalls(int i){baseOnBalls = i;}
+    void setBattingAverageInPlay(double i){battingAverageInPlay = i;}
+    void setWalkToStrikeoutRatio(double i){walkToStrikeoutRatio = i;}
+    void setBaseRuns(int i){baseRuns = i;}
 };
 
 class baseballTeam
 {
     baseballPlayer team[3];
-    int teamSize = 3;
+    int teamSize = 3; // Used 
     public:
-    bool isFilled = false;
-        baseballTeam(){};
-        baseballTeam(baseballPlayer * players)
+    bool isFilled = false; // Detects whether team is empty or not for menu selection
+        baseballTeam(){}; // Default constructor
+        baseballTeam(baseballPlayer * players) // Preload team with an array of players
         {
             for(int x = 0; x < teamSize; x++)
                 team[x] = players[x];
+            isFilled = true;
         };
-        ~baseballTeam(){};
-        void getUserInput()
+        ~baseballTeam(){}; // Destructor
+        void getUserInput() // Load in input from console
         {
             string name;
             int singles;
@@ -148,14 +175,93 @@ class baseballTeam
         void editPlayer()
         {
             int selection = 0;
-            cout << "Which player would you like to edit?: " << endl;
-            for(int x = 0; x < sizeof(team); x++)
+            int stat = 0;
+            cout << "\nWhich player would you like to edit?: \n" << endl;
+            for(int x = 0; x < teamSize; x++)
             {
-                cout << "(" << x+1 << ") " << team[x].getName() << endl << endl;
+                cout << "(" << x+1 << ") " << team[x].getName() << endl;
             }
-            cout << "Input selection: ";
+            cout << "\nInput selection: ";
             cin >> selection;
-            exit(0);
+
+            baseballPlayer temp = team[selection-1];
+
+            cout << "\nWhich of the following stats would you like to change?\n" << endl;
+            temp.printStatsNumbered();
+            cout << "Input selection: ";
+            cin >> stat;
+            cout << endl;
+
+            string newStringVal;
+            int newIntVal;
+            double newDoubleVal;
+            switch (stat)
+            {
+            case 1:
+                cout << "Name: ";
+                cin.ignore();
+                getline(cin,newStringVal);
+                temp.setName(newStringVal);
+                break;
+
+            case 2:
+                cout << "1B - Single: ";
+                cin >> newIntVal;
+                temp.setSingles(newIntVal);
+                break;
+            case 3:
+                cout << "2B - Double: ";
+                cin >> newIntVal;
+                temp.setDoubles(newIntVal);
+                break;
+            case 4:
+                cout << "3B - Triple: ";
+                cin >> newIntVal;
+                temp.setTriples(newIntVal);
+                break;
+            case 5:
+                cout << "AB - At bat: ";
+                cin >> newIntVal;
+                temp.setPlateAppearances(newIntVal);
+                break;
+            case 6:
+                cout << "AB/HR - At bats per home run: ";
+                cin >> newIntVal;
+                temp.setAppearancesPerHR(newIntVal);
+                break;
+            case 7:
+                cout << "BA - Batting average: ";
+                cin >> newDoubleVal;
+                temp.setBattingAverage(newDoubleVal);
+                break;
+            case 8:
+                cout << "BB - Base on balls: ";
+                cin >> newIntVal;
+                temp.setBaseOnBalls(newIntVal);
+                break;
+            case 9:
+                cout << "BABIP - Batting average on balls in play: ";
+                cin >> newDoubleVal;
+                temp.setBattingAverageInPlay(newDoubleVal);
+                break;
+            case 10:
+                cout << "BB/K - Walk-to-strikout ratio: ";
+                cin >> newDoubleVal;
+                temp.setWalkToStrikeoutRatio(newDoubleVal);
+                break;
+            case 11:
+                cout << "BsR - Base runs: ";
+                cin >> newIntVal;
+                temp.setBaseRuns(newIntVal);
+                break;
+            
+            default:
+                break;
+            }
+            cout << endl;
+            temp.printStats();
+            team[selection-1] = temp;
+            cout << endl;
         }
         void printTeamStats()
         {
@@ -219,11 +325,12 @@ int main()
     //baseballPlayer(string namePar, int singlesPar, int doublesPar, int triplesPar, int plateAppPar,
     //int appearPerHRPar, long batAvgPar, int bOBPar, long batAvgInPlayPar, long walkToSOPar, int baseRunsPar)
 
-    // baseballPlayer players[2] = {baseballPlayer("Craig Biggio", 43, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14), 
-    //                              baseballPlayer("Feg Liggio", 43, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14)};
+     baseballPlayer players[3] = {baseballPlayer("Craig Biggio", 43, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14), 
+                                  baseballPlayer("Feg Liggio", 42, 3, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14),
+                                  baseballPlayer("Tyler Harrison", 4, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14)};
 
 
-    baseballTeam team = baseballTeam();
+    baseballTeam team = baseballTeam(players);
     displayMenu(team);
     return 0;
 }
