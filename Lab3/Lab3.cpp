@@ -1,5 +1,7 @@
 #include <iostream>
 #include <iomanip>
+#include<fstream>
+#include<stdio.h>
 
 // Written by Tyler Harrison
 /*
@@ -169,7 +171,54 @@ class baseballTeam
 
         void loadFromFile()
         {
-            cout << "\nUnder construction\n" << endl;
+            string name;
+            int singles;
+            int doubles;
+            int triples;
+            int plateAppearances;
+            int appearancesPerHR;
+            double battingAverage;
+            int baseOnBalls;
+            double battingAverageInPlay;
+            double walkToStrikeoutRatio;
+            int baseRuns;
+            string tempVar;
+            ifstream myfile;
+            myfile.open ("playerData.txt");
+            string text;
+
+            for(int x = 0; x < teamSize; x++)
+            {
+                getline(myfile, name, ',');
+                getline(myfile, tempVar, ',');
+                singles = stoi(tempVar);
+                getline(myfile, tempVar, ',');
+                doubles = stoi(tempVar);
+                getline(myfile, tempVar, ',');
+                triples = stoi(tempVar);
+                getline(myfile, tempVar, ',');
+                plateAppearances = stoi(tempVar);
+                getline(myfile, tempVar, ',');
+                appearancesPerHR = stoi(tempVar);
+                getline(myfile, tempVar, ',');
+                battingAverage = stod(tempVar);
+                getline(myfile, tempVar, ',');
+                baseOnBalls = stoi(tempVar);
+                getline(myfile, tempVar, ',');
+                battingAverageInPlay = stod(tempVar);
+                getline(myfile, tempVar, ',');
+                walkToStrikeoutRatio = stod(tempVar);
+                getline(myfile, tempVar);
+                baseRuns = stoi(tempVar);
+                // Create new baseballPlayer
+                baseballPlayer temp = baseballPlayer(name, singles, doubles, triples, plateAppearances, appearancesPerHR, battingAverage,baseOnBalls,
+                                                    battingAverageInPlay,walkToStrikeoutRatio,baseRuns);
+                // Add player to team array
+                team[x] = temp;
+            }
+            myfile.close();
+            cout << "\nLoaded players successfully\n" << endl;
+            isFilled = true;
         }
 
         void editPlayer()
@@ -276,7 +325,7 @@ void displayMenu(baseballTeam team)
     int selection;
     cout << "Menu:" << endl;
     cout << "--------------------------" << endl;
-    cout << "(1) Input player names\n(2) Show player stats\n(3) Edit player stats\n(4) Load players from file\n(5) Exit program" << endl << endl;
+    cout << "(1) Input player data\n(2) Show player stats\n(3) Edit player stats\n(4) Load player data from file\n(5) Exit program" << endl << endl;
     cout << "Input selection: ";
     cin >> selection;
     cin.ignore();
@@ -325,12 +374,13 @@ int main()
     //baseballPlayer(string namePar, int singlesPar, int doublesPar, int triplesPar, int plateAppPar,
     //int appearPerHRPar, long batAvgPar, int bOBPar, long batAvgInPlayPar, long walkToSOPar, int baseRunsPar)
 
-     baseballPlayer players[3] = {baseballPlayer("Craig Biggio", 43, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14), 
-                                  baseballPlayer("Feg Liggio", 42, 3, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14),
-                                  baseballPlayer("Tyler Harrison", 4, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14)};
+    //  baseballPlayer players[3] = {baseballPlayer("Craig Biggio", 43, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14), 
+    //                               baseballPlayer("Feg Liggio", 42, 3, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14),
+    //                               baseballPlayer("Tyler Harrison", 4, 6, 1, 123, 26, 0.211, 7, 0.350, 0.241, 14)};
 
 
-    baseballTeam team = baseballTeam(players);
+    // baseballTeam team = baseballTeam(players);
+    baseballTeam team = baseballTeam();
     displayMenu(team);
     return 0;
 }
