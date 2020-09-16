@@ -10,7 +10,7 @@ JuperterianType::JuperterianType(std::string nameVar)
 void JuperterianType::print()
 {
     std:: cout << "Juperterian" << "\n-------" << std::endl;
-    std::cout << "name: " << name << std::endl;
+    std::cout << "Name: " << name << std::endl;
     std:: cout << "Number of Eyes: " << eyes << std::endl;
     std:: cout << "Number of Legs: " << legs << std::endl;
     std:: cout << std::endl;

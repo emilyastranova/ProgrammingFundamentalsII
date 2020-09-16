@@ -11,7 +11,7 @@ AlienType::AlienType(std::string nameVar, int numLegs, int numEyes)
 void AlienType::print()
 {
     std:: cout << "Alien" << "\n-------" << std::endl;
-    std::cout << "Species: " << name << std::endl;
+    std::cout << "Name: " << name << std::endl;
     std:: cout << "Number of Eyes: " << eyes << std::endl;
     std:: cout << "Number of Legs: " << legs << std::endl;
     std:: cout << std::endl;

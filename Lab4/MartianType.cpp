@@ -10,7 +10,7 @@ MartianType::MartianType(std::string nameVar)
 void MartianType::print()
 {
     std:: cout << "Martian" << "\n-------" << std::endl;
-    std::cout << "Species: " << name << std::endl;
+    std::cout << "Name: " << name << std::endl;
     std:: cout << "Number of Eyes: " << eyes << std::endl;
     std:: cout << "Number of Legs: " << legs << std::endl;
     std:: cout << std::endl;

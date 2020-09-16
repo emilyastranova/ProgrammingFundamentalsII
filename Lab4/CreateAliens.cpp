@@ -10,7 +10,7 @@
 
 int main()
 {
-    AlienType ET = AlienType("Extra-Terrestrial", 2, 2); // AlienType allows you to choose custom amounts of eyes and legs
+    AlienType ET = AlienType("ET", 2, 2); // AlienType allows you to choose custom amounts of eyes and legs
     ET.print();
 
     MartianType marty = MartianType("Marty"); // All Martians have 3 eyes and 2 legs
