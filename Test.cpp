@@ -1,19 +1,25 @@
-#include <stdio.h> 
-  
-int* fun() 
-{ 
-    int arr[100]; 
-  
-    /* Some operations on arr[] */
-    arr[0] = 10; 
-    arr[1] = 20; 
-  
-    return arr; 
-} 
-  
-int main() 
-{ 
-    int* ptr = fun(); 
-    printf("%d %d", ptr[0], ptr[1]); 
-    return 0; 
+#include <stdio.h>
+#include <iostream>
+
+class Test
+{
+    public:
+        int x;
+
+        int getX() {
+            return this->x;
+        }
+        void setX(int x) {
+            this->x = x;
+        }
+
+
+};
+
+int main()
+{
+    Test t;
+    t.setX(10);
+    std::cout << t.getX();
+    return 0;
 }

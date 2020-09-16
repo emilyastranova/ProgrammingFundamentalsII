@@ -2,6 +2,7 @@
 #include <iomanip>
 #include<fstream>
 #include<stdio.h>
+#include<string>
 
 // Written by Tyler Harrison
 /*
