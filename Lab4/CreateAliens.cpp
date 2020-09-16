@@ -10,6 +10,7 @@
 
 int main()
 {
+    // Rename an alien to "Twins" for an easter egg
     AlienType ET = AlienType("ET", 2, 2); // AlienType allows you to choose custom amounts of eyes and legs
     ET.print();
 
@@ -18,6 +19,7 @@ int main()
 
     JuperterianType juny = JuperterianType("Juny"); // All Juperterians have 1 eye and 5 legs
     juny.print();
+
 
     return 0;
 }

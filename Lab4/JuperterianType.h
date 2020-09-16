@@ -5,10 +5,6 @@
 #include <iostream>
 
 class JuperterianType : AlienType{
-  protected:
-    std::string name;
-    int legs;
-    int eyes;
   public:
     JuperterianType(); // Default constructor
     JuperterianType(std::string nameVar);
