@@ -1,6 +1,8 @@
 #include <iostream>
 #include "AlienType.h"
 
+AlienType::AlienType(){}
+
 AlienType::AlienType(std::string speciesVar, int numLegs, int numEyes)
 {
     legs = numLegs; eyes = numEyes; speciesName = speciesVar;

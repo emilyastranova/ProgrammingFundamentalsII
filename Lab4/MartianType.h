@@ -1,8 +1,10 @@
+#ifndef MARTIANTYPE_H
+#define MARTIANTYPE_H
+
 #include "AlienType.h"
 #include <iostream>
 
-class MartianType: public AlienType
-{
+class MartianType : AlienType{
   protected:
     std::string speciesName;
     int legs;
@@ -13,3 +15,5 @@ class MartianType: public AlienType
     
     void print(); // Overload from base class
 };
+
+#endif

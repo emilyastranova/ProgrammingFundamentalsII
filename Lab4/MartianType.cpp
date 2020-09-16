@@ -1,5 +1,6 @@
+
 #include "MartianType.h"
-#include<iostream>
+#include <iostream>
 
 MartianType::MartianType(std::string speciesVar, int numLegs, int numEyes)
 {

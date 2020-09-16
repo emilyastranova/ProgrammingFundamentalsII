@@ -1,3 +1,5 @@
+#ifndef ALIENTYPE_H
+#define ALIENTYPE_H
 
 #include <iostream>
 
@@ -13,3 +15,5 @@ class AlienType
 
     void print();
 };
+
+#endif
