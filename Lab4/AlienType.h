@@ -6,12 +6,12 @@
 class AlienType
 {
   protected:
-    std::string speciesName;
+    std::string name;
     int legs;
     int eyes;
   public:
     AlienType(); // Default constructor for inheritance
-    AlienType(std::string speciesVar, int numLegs, int numEyes);
+    AlienType(std::string name, int numLegs, int numEyes);
 
     void print();
 };

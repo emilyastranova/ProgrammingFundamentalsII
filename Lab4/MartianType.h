@@ -6,12 +6,12 @@
 
 class MartianType : AlienType{
   protected:
-    std::string speciesName;
+    std::string name;
     int legs;
     int eyes;
   public:
     MartianType(); // Default constructor
-    MartianType(std::string speciesVar, int numLegs, int numEyes);
+    MartianType(std::string nameVar);
     
     void print(); // Overload from base class
 };
