@@ -43,28 +43,22 @@ public:
 
 };
 
-class doctorType : personType
+class doctorType : public personType
 {
     string specialty = "Unspecifed"; // Kept private because no need to access directly without getter and setter
     public:
         doctorType(){} // Default constructor
         doctorType(string firstName, string lastName, string specialty) // Constructor that sets specialty
         {
-            personType::setFirstName(firstName);
-            personType::setLastName(lastName);
+            setFirstName(firstName);
+            setLastName(lastName);
             this->specialty = specialty;
         } 
         
-        string getName(){return personType::getFirstName() + " " + personType::getLastName();}
-        string getFirstName(){return personType::getFirstName();}
-        void setFirstName(string firstName){personType::setFirstName(firstName);}
-        string getLastName(){return personType::getLastName();}
-        void setLastName(string lastName){personType::setLastName(lastName);}
-        void setName(string firstName, string lastName){personType::setName(firstName , lastName);}
         string getSpecialty(){return specialty;}
         void print()
         {
-            cout << "Doctor: " << personType::getName() << endl;
+            cout << "Doctor: " << getName() << endl;
             cout << "Specialty: " << specialty << endl;
         }
 };
@@ -117,7 +111,7 @@ class billType
 
 };
 
-class patientType : personType
+class patientType : public personType
 {
     int patientID; 
     int age; 
@@ -133,8 +127,8 @@ class patientType : personType
             this->patientID = patientID; this->age = age; // Set all local variables inside of patientType, kept private
             this->dateOfBirth = dateOfBirth; this->physicianName = physicianName; 
             this->admissionDate = admissionDate; this->dischargeDate = dischargeDate;
-            personType::setFirstName(firstName);
-            personType::setLastName(lastName);
+            setFirstName(firstName);
+            setLastName(lastName);
         }
         int getPatientID() {return this->patientID;}
         void setPatientID(int patientID) {this->patientID = patientID;}
@@ -154,18 +148,9 @@ class patientType : personType
         string getDischargeDate() {return this->dischargeDate;}
         void setDischargeDate(string dischargeDate) {this->dischargeDate = dischargeDate;}
 
-        string getFirstName(){return personType::getFirstName();}
-        void setFirstName(string firstName){personType::setFirstName(firstName);}
-
-        string getLastName(){return personType::getLastName();}
-        void setLastName(string lastName){personType::setLastName(lastName);}
-
-        string getName(){return personType::getFirstName() + " " + personType::getLastName();}
-        void setName(string firstName, string lastName){personType::setName(firstName , lastName);}
-
         void print()
         {
-            cout << "Patient: " << personType::getName() << endl;
+            cout << "Patient: " << getName() << endl;
             cout << "Date Of Birth: " << dateOfBirth << endl;
             cout << "Physician Name: " << physicianName << endl;
             cout << "Admission Date: " << admissionDate << endl;
