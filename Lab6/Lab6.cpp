@@ -17,13 +17,26 @@ class bankAccount
             setOwnerName(ownerName);
         }
 
+        void print()
+        {
+            cout << "Owner's Name: " << ownerName << endl;
+            cout << "Account Number: " << accountNumber << endl;
+            cout << "Balance: " << balance << endl << endl;
+        }
+
         int getAccountNumber() {return this->accountNumber;}
         void setAccountNumber(int accountNumber) {this->accountNumber = accountNumber;}
 
         int getBalance() {return this->balance;}
         void setBalance(double balance) {this->balance = balance;}
 
-        void withdrawMoney(double amount) {setBalance(getBalance()-amount);}
+        void withdrawMoney(double amount) 
+        {
+            if(getBalance() >= amount)
+                setBalance(getBalance()-amount);
+            else
+                cout << "Overdraw. Cannot complete transaction" << endl;
+        }
         void depositMoney(double amount) {setBalance(getBalance()+amount);}
         
         string getOwnerName() {return this->ownerName;}
@@ -32,7 +45,7 @@ class bankAccount
             this->ownerName = ownerName;
             if(ownerName == "Richie Rich")
             {
-                cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl;
+                cout << "\n\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl;
                 cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl;
                 cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl;
                 cout << "$$$$$$$$$$$$$$$$$$,,,$$$$$$$$$$$$$$$$$" << endl;
@@ -113,6 +126,7 @@ class checkingAccount : public bankAccount
             setInterest(interest);
             // Unlimited check writing
             setLimitedCheckWriting(false);
+            setLowInterest(lowInterest);
         } 
     
         double getMonthlyCharge() {return this->monthlyCharge;}
@@ -242,7 +256,7 @@ class serviceChargeChecking : public checkingAccount
             }
             else
             {
-                cout << "Check limit exceeded";
+                cout << "Check limit exceeded" << endl << endl;
             }
             
         };
@@ -296,11 +310,19 @@ class highInterestSavings : public savingsAccount
 int main()
 {
     checkingAccount c = checkingAccount(1234, 1501.03, "Ronald Regan", 11.02);
+    c.print();
     c.writeCheck("Tyler Harrison", "04/26/2021", "614 Holleman Dr E", 100.02, "Pizza money");
     serviceChargeChecking s = serviceChargeChecking(1234, 1501.03, "Dr. Gooch", 11.02, 2);
     s.writeCheck("Tyler Harrison", "04/26/2021", "614 Holleman Dr E", 100.02, "Pizza money");
     s.writeCheck("Tyler Harrison", "04/26/2021", "614 Holleman Dr E", 100.02, "Pizza money");
     cout << endl;
-    s.writeCheck("Tyler Harrison", "04/26/2021", "614 Holleman Dr E", 100.02, "Pizza money"); // This should 
+    s.writeCheck("Tyler Harrison", "04/26/2021", "614 Holleman Dr E", 100.02, "Pizza money"); // This should go over check limit
+    savingsAccount savings;
+    // savings.setOwnerName("Richie Rich"); // Trigger easter egg
+    certificateOfDeposit cod = certificateOfDeposit(1456, 10.23, "Donny T.", 0.06, 100, 20);
+    cod.print();
+    highInterestSavings highInterest = highInterestSavings(19392, 15.23, "Captain Obvious", 200, 10, 0.15);
+    highInterest.print();
+    highInterest.withdrawMoney(99999); // Should be an overdraw, only 15.23 in account
     return 0;
 }
