@@ -1,0 +1,448 @@
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+// Bank account is an abstract class, because we will never make a generic bank account,
+// only types of bank accounts (checking, savings, etc.)
+
+class bankAccount
+{
+    protected:
+        int accountNumber;
+        double balance;
+        string ownerName;
+    
+    public:
+
+        int getAccountNumber() {return this->accountNumber;}
+        void setAccountNumber(int accountNumber) {this->accountNumber = accountNumber;}
+
+        int getBalance() {return this->balance;}
+        void setBalance(double balance) {this->balance = balance;}
+
+        void withdrawMoney(double amount) 
+        {
+            if(getBalance() >= amount)
+                setBalance(getBalance()-amount);
+            else
+                cout << "Overdraw. Cannot complete transaction" << endl << endl;
+        }
+        void depositMoney(double amount) {setBalance(getBalance()+amount);}
+        
+        string getOwnerName() {return this->ownerName;}
+        void setOwnerName(string ownerName) 
+        {
+            this->ownerName = ownerName;
+        }
+
+        virtual void writeCheck(string recipient, string date, string address, double amount, string memo) 
+        {
+            cout << "Check written. Details:\n----------------------------" << endl;
+            cout << "Pay to the Order of: " << recipient << endl;
+            cout << "Date: " << date << endl;
+            cout << "Address: " << address << endl;
+            cout << "Amount: " << std::setprecision(2) << std::fixed << amount << endl;
+            cout << "Memo: " << memo << endl << endl;
+        };
+
+};
+
+class checkingAccount : public bankAccount
+{
+    protected:
+        double monthlyCharge;
+        double interest;
+        double minimumBalance;
+        bool lowInterest;
+        bool limitedCheckWriting;
+
+    public:
+        checkingAccount(){} // Default constructor
+        checkingAccount(int accountNumber, double balance, string ownerName, double monthlyCharge) // Monthly service charge, limited check writing, no minimum balance, and no interest
+        {
+            setAccountNumber(accountNumber);
+            setBalance(balance);
+            setOwnerName(ownerName);
+            setMonthlyCharge(monthlyCharge);
+            // Limited check writing
+            setLimitedCheckWriting(true);
+            setLowInterest(false);
+            setInterest(0.00);
+        } 
+        // No monthly service charge, a minimum balance requirement, unlimited check writing, and lower interest
+        // Also covers the 3rd type of account with higher interest rate and higher minimum requirement
+        checkingAccount(int accountNumber, double balance, string ownerName, double minimumBalance, double interest, bool lowInterest)
+        {
+            setAccountNumber(accountNumber);
+            setBalance(balance);
+            setOwnerName(ownerName);
+            setMinimumBalance(minimumBalance);
+            setInterest(interest);
+            // Unlimited check writing
+            setLimitedCheckWriting(false);
+            setLowInterest(lowInterest);
+        } 
+
+        void virtual print()
+        {
+            cout << "Checking Account\n----------------------" << endl;
+            cout << "Owner's Name: " << getOwnerName() << endl;
+            cout << "Account Number: " << getAccountNumber() << endl;
+            cout << "Balance: " << std::setprecision(2) << std::fixed << balance << endl;
+            cout << "Monthly Charge: " << std::setprecision(2) << std::fixed << monthlyCharge << endl;
+            cout << "Interest: " << interest << endl;
+            if(lowInterest)
+                cout << "Is Low Interest?: " << "True" << endl;
+            else
+                cout << "Is Low Interest?: " << "False" << endl;
+            if(limitedCheckWriting)
+                cout << "Limited Check Writing?: " << "True" << endl;
+            else
+                cout << "Limited Check Writing?: " << "False" << endl;
+            cout << endl;
+        }
+    
+        double getMonthlyCharge() {return this->monthlyCharge;}
+        void setMonthlyCharge(double monthlyCharge) {this->monthlyCharge = monthlyCharge;}
+
+        double getInterest() {return this->interest;}
+        void setInterest(double interest) {this->interest = interest;}
+
+        double getMinimumBalance() {return this->minimumBalance;}
+        void setMinimumBalance(double minimumBalance) {this->minimumBalance = minimumBalance;}
+
+        bool getLowInterest() {return this->lowInterest;}
+        void setLowInterest(bool lowInterest) {this->lowInterest = lowInterest;}
+
+        bool getLimitedCheckWriting() {return this->limitedCheckWriting;}
+        void setLimitedCheckWriting(bool limitedCheckWriting) {this->limitedCheckWriting = limitedCheckWriting;}
+};
+
+class certificateOfDeposit : public bankAccount
+{
+
+    double interestRate;
+    double withdrawPenalty;
+    double currentMaturity;
+    double timeUntilMature;
+
+    public:
+        certificateOfDeposit(){} // Default constructor
+        certificateOfDeposit(int accountNumber, double balance, string ownerName, double interestRate, double withdrawPenalty, double timeUntilMature)
+        {
+            setAccountNumber(accountNumber);
+            setBalance(balance);
+            setOwnerName(ownerName);
+            setInterestRate(interestRate); // Higher interest rates
+            setWithdrawPenalty(withdrawPenalty); // Penalty is stiff
+            setCurrentMaturity(0); // Starts from 0
+            setTimeUntilMature(timeUntilMature);
+        }
+
+        void print()
+        {
+            cout << "Certificate of Deposit\n----------------------" << endl;
+            cout << "Owner's Name: " << getOwnerName() << endl;
+            cout << "Account Number: " << getAccountNumber() << endl;
+            cout << "Balance: " << std::setprecision(2) << std::fixed << balance << endl;
+            cout << "Interest: " << std::setprecision(2) << std::fixed << interestRate << endl;
+            cout << "Withdrawal Penalty: " << std::setprecision(2) << std::fixed << withdrawPenalty << endl;
+            cout << "Current Maturity: " << currentMaturity << endl;
+            cout << "Time Until Mature: " << timeUntilMature << endl << endl;
+        }
+
+        double getInterestRate() {return this->interestRate;}
+        void setInterestRate(double interestRate) {this->interestRate = interestRate;}
+
+        double getWithdrawPenalty() {return this->withdrawPenalty;}
+        void setWithdrawPenalty(double withdrawPenalty) {this->withdrawPenalty = withdrawPenalty;}
+        
+        double getCurrentMaturity() {return this->currentMaturity;}
+        void setCurrentMaturity(double currentMaturity) {this->currentMaturity = currentMaturity;}
+
+        double getTimeUntilMature() {return this->timeUntilMature;}
+        void setTimeUntilMature(double timeUntilMature) {this->timeUntilMature = timeUntilMature;}
+};
+
+class savingsAccount : public bankAccount
+{
+    protected:
+        double minimumBalance;
+        double interest;
+        double monthlyCharge;
+
+    public:
+        savingsAccount(){} // Default constructor
+
+        // No minimum balance, lower interest rate
+        savingsAccount(int accountNumber, double balance, string ownerName, double monthlyCharge, double interest)
+        {
+            setAccountNumber(accountNumber);
+            setBalance(balance);
+            setOwnerName(ownerName);
+            setInterest(interest);
+            setMonthlyCharge(monthlyCharge);
+            setMinimumBalance(0);
+        } 
+
+        // Minimum balance required, higher interest rate
+        savingsAccount(int accountNumber, double balance, string ownerName, double monthlyCharge, double minimumBalance, double interest)
+        {
+            setAccountNumber(accountNumber);
+            setBalance(balance);
+            setOwnerName(ownerName);
+            setMinimumBalance(minimumBalance);
+            setInterest(interest);
+            setMonthlyCharge(monthlyCharge);
+        } 
+
+        void virtual print()
+        {
+            cout << "Savings Account\n----------------------" << endl;
+            cout << "Owner's Name: " << getOwnerName() << endl;
+            cout << "Account Number: " << getAccountNumber() << endl;
+            cout << "Balance: " << std::setprecision(2) << std::fixed << balance << endl;
+            cout << "Monthly Charge: " << std::setprecision(2) << std::fixed << monthlyCharge << endl;
+            cout << "Interest: " << std::setprecision(2) << std::fixed << interest << endl;
+            cout << "Minimum Balance: " << std::setprecision(2) << std::fixed << minimumBalance << endl << endl;
+            if(ownerName == "Richie Rich")
+            {
+                cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$$,,,$$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$\"OOO\"$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$!OOO!$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$,\"OOO\",$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$,\"OOOOOOO\",$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$!\"OOOOOOOOOOO\"!$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$,\"OOOOOOOOOOOOOOO\",$$$$$$$$$" << endl;
+                cout << "$$$$$$$$,1OOOOOOOOOOOOOOOOOOO7,$$$$$$$" << endl;
+                cout << "$$$$$$,!OOOOOOOOOOOOOOOOOOOOOO\"$$$$$$$" << endl;
+                cout << "$$$$$$!OOOOOOOOO/\"\"\"\"\'\\OOOOOOOO1$$$$$$" << endl;
+                cout << "$$$$$$\"OOOOOOOOOO\"$$$$!OOOOOOOO\"$$$$$$" << endl;
+                cout << "$$$$$$\"OOOOOOOOOOO!$$$\",OOOOOOO!$$$$$$" << endl;
+                cout << "$$$$$$$\",OOOOOOOOOO\",$$$\"\"\"\"\"\"\"$$$$$$$" << endl;
+                cout << "$$$$$$$$\"!OOOOOOOOOOO\",$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$\",OOOOOOOOOOO\",$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$\"OOOOOOOOOOOO\",$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$\"!OOOOOOOOOOOO\"+$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$\"==OOOOOOOOOOO,$$$$$$$$" << endl;
+                cout << "$$$$$$$$,,,,,,$$$$\",OOOOOOOOOO\",$$$$$$" << endl;
+                cout << "$$$$$$,\"OOOOOO',$$$$\",OOOOOOOOO!$$$$$$" << endl;
+                cout << "$$$$$$1OOOOOOOO.\"~~~\"OOOOOOOOOO!$$$$$$" << endl;
+                cout << "$$$$$$!OOOOOOOOOOOOOOOOOOOOOOO1$$$$$$$" << endl;
+                cout << "$$$$$$\",OOOOOOOOOOOOOOOOOOOOO,\"$$$$$$$" << endl;
+                cout << "$$$$$$$\",OOOOOOOOOOOOOOOOOOO!$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$1OOOOOOOOOOOOOOOO,1$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$\"~~,OOOOOOOOOO,\"$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$\"\"\"1OOO1\"'$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$!OOO!$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$,OOO,$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$$\"\"\"$$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl;
+                cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << endl << endl;
+            }
+        }
+
+        double getMinimumBalance() {return this->minimumBalance;}
+        void setMinimumBalance(double minimumBalance) {this->minimumBalance = minimumBalance;}
+
+        double getInterest() {return this->interest;}
+        void setInterest(double interest) {this->interest = interest;}
+
+        double getMonthlyCharge() {return this->monthlyCharge;}
+        void setMonthlyCharge(double monthlyCharge) {this->monthlyCharge = monthlyCharge;}
+};
+
+//Does not pay any interest, allows the account holder to write a limited number of checks each month, and does not require any minimum balance
+class serviceChargeChecking : public checkingAccount
+{
+    int checkLimit;
+    double checksWritten = 0; // Start at 0
+
+    public:
+        serviceChargeChecking(){}
+        serviceChargeChecking(int accountNumber, double balance, string ownerName, double monthlyCharge, int checkLimit)
+        {
+            setAccountNumber(accountNumber);
+            setBalance(balance);
+            setOwnerName(ownerName);
+            setCheckLimit(checkLimit);
+            setMonthlyCharge(monthlyCharge);
+            setInterest(0);
+        }
+
+        int getCheckLimit() {return this->checkLimit;}
+        void setCheckLimit(int checkLimit) {this->checkLimit = checkLimit;}
+
+        void print()
+        {
+            cout << "Savings Account\n----------------------" << endl;
+            cout << "Owner's Name: " << getOwnerName() << endl;
+            cout << "Account Number: " << getAccountNumber() << endl;
+            cout << "Balance: " << std::setprecision(2) << std::fixed << balance << endl;
+            cout << "Monthly Charge: " << std::setprecision(2) << std::fixed << monthlyCharge << endl;
+            cout << "Check Limit: " << checkLimit << endl;
+        }
+
+        void writeCheck(string recipient, string date, string address, double amount, string memo) 
+        {
+            if(checksWritten < checkLimit) // This account has a check limit
+            {
+                bankAccount::writeCheck(recipient, date, address, amount, memo); // References base class
+                checksWritten++;
+            }
+            else
+                cout << "Check limit exceeded" << endl << endl;
+        };
+};
+
+class noServiceChargeChecking : public checkingAccount
+{
+    public:
+        noServiceChargeChecking(){}
+        noServiceChargeChecking(int accountNumber, double balance, string ownerName, double interest, double minimumBalance)
+        {
+            setAccountNumber(accountNumber);
+            setBalance(balance);
+            setOwnerName(ownerName);
+            setMonthlyCharge(0); // No monthly charge
+            setInterest(interest);
+            setMinimumBalance(minimumBalance);
+        }
+
+        void print()
+        {
+            cout << "No Service Charge Checking Account\n----------------------" << endl;
+            cout << "Owner's Name: " << getOwnerName() << endl;
+            cout << "Account Number: " << getAccountNumber() << endl;
+            cout << "Balance: " << std::setprecision(2) << std::fixed << balance << endl;
+            cout << "Monthly Charge: " << std::setprecision(2) << std::fixed << monthlyCharge << endl;
+            cout << "Interest: " << std::setprecision(2) << std::fixed << interest << endl;
+            cout << "Minimum Balance: " << std::setprecision(2) << std::fixed << minimumBalance << endl << endl;
+        }
+};
+
+class highInterestChecking : public noServiceChargeChecking
+{
+    public:
+        highInterestChecking(){}
+        highInterestChecking(int accountNumber, double balance, string ownerName, double interest, double minimumBalance)
+        {
+            setAccountNumber(accountNumber);
+            setBalance(balance);
+            setOwnerName(ownerName);
+            setMonthlyCharge(0);
+            setInterest(interest); // Higher interest than noServiceChargeChecking
+            setMinimumBalance(minimumBalance);
+        }
+        void print()
+        {
+            cout << "High Interest Checking Account\n----------------------" << endl;
+            cout << "Owner's Name: " << getOwnerName() << endl;
+            cout << "Account Number: " << getAccountNumber() << endl;
+            cout << "Balance: " << std::setprecision(2) << std::fixed << balance << endl;
+            cout << "Monthly Charge: " << std::setprecision(2) << std::fixed << monthlyCharge << endl;
+            cout << "Interest: " << std::setprecision(2) << std::fixed << interest << endl;
+            cout << "Minimum Balance: " << std::setprecision(2) << std::fixed << minimumBalance << endl << endl;
+        }
+};
+
+class highInterestSavings : public savingsAccount
+{
+    public:
+        highInterestSavings(){}
+        highInterestSavings(int accountNumber, double balance, string ownerName, double monthlyCharge, double minimumBalance, double interest)
+        {
+            setAccountNumber(accountNumber);
+            setBalance(balance);
+            setOwnerName(ownerName);
+            setMinimumBalance(minimumBalance);
+            setInterest(interest);
+            setMonthlyCharge(monthlyCharge);
+        }
+        void print()
+        {
+            cout << "High Interest Savings Account\n----------------------" << endl;
+            cout << "Owner's Name: " << getOwnerName() << endl;
+            cout << "Account Number: " << getAccountNumber() << endl;
+            cout << "Balance: " << std::setprecision(2) << std::fixed << balance << endl;
+            cout << "Monthly Charge: " << std::setprecision(2) << std::fixed << monthlyCharge << endl;
+            cout << "Interest: " << std::setprecision(2) << std::fixed << interest << endl;
+            cout << "Minimum Balance: " << std::setprecision(2) << std::fixed << minimumBalance << endl << endl;
+        }
+};
+
+int main()
+{
+    /*
+        -------------------------------
+        |      Checking Account       |
+        -------------------------------
+    */
+    checkingAccount c = checkingAccount(1234, 1501.03, "Ronald Regan", 11.02);
+    c.setBalance(1501.03);
+    c.print();
+    c.writeCheck("James Moriarty", "12/27/1999", "914 Arnold Dr", 654.35, "Costume design");
+
+    /*
+        ----------------------------------------------
+        |      Service Charge Checking Account       |
+        ----------------------------------------------
+    */
+    serviceChargeChecking s = serviceChargeChecking(1234, 1501.03, "Dr. Gooch", 11.02, 2);
+    s.print();
+    cout << "\nTo prove a point, we will hit the limit by writing too many checks\n" << endl;
+    s.writeCheck("Tyler Harrison", "04/26/2021", "614 Holleman Dr E", 100.02, "Pizza money");
+    s.writeCheck("Neil Armstrong", "05/27/1989", "123 East Easton", 952.12, "Moon rock money");
+    // This should go over check limit
+    s.writeCheck("Sherlock Holmes", "01/12/2021", "221 Baker St", 619.22, "Detective consulting");
+    
+    /*
+        ------------------------------
+        |      Savings Account       |
+        ------------------------------
+    */
+    savingsAccount savings = savingsAccount(546215, 99999.99, "Todd Barnes", 0.01, 0.02);
+    //savings.setOwnerName("Richie Rich"); // Trigger easter egg
+    savings.print();
+    
+    /*
+        --------------------------------------
+        |      Certificate of Deposit        |
+        --------------------------------------
+    */
+    certificateOfDeposit cod = certificateOfDeposit(1456, 10.23, "Donny T.", 0.06, 100, 20);
+    cod.print();
+    
+    /*
+        --------------------------------------------
+        |      High Interest Savings Account       |
+        --------------------------------------------
+    */
+    highInterestSavings highInterest = highInterestSavings(19392, 15.23, "Captain Obvious", 200, 10, 0.15);
+    highInterest.print();
+    cout << "We will now overdraw money on purpose ($99999)" << endl;
+    highInterest.withdrawMoney(99999); // Should be an overdraw, only 15.23 in account
+    
+    /*
+        --------------------------------------------
+        |      No Service Checking Account       |
+        --------------------------------------------
+    */
+    noServiceChargeChecking noService = noServiceChargeChecking(2468, 1985.06, "Appreciate Huntington", 14.90, 100.00);
+    noService.print();
+
+    /*
+        --------------------------------------------
+        |      High Interest Checking Account       |
+        --------------------------------------------
+    */
+    highInterestChecking highChecking = highInterestChecking(7564321, 248.22, "Mr. Monopoly Man", 0.03, 200.00);
+    highChecking.print();
+    
+    return 0;
+}
