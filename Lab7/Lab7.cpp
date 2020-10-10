@@ -69,6 +69,7 @@ class checkingAccount : public bankAccount
             setLimitedCheckWriting(true);
             setLowInterest(false);
             setInterest(0.00);
+            setMinimumBalance(0.00);
         } 
         // No monthly service charge, a minimum balance requirement, unlimited check writing, and lower interest
         // Also covers the 3rd type of account with higher interest rate and higher minimum requirement
@@ -92,6 +93,7 @@ class checkingAccount : public bankAccount
             cout << "Balance: " << std::setprecision(2) << std::fixed << balance << endl;
             cout << "Monthly Charge: " << std::setprecision(2) << std::fixed << monthlyCharge << endl;
             cout << "Interest: " << interest << endl;
+            cout << "Minimum Balance: " << minimumBalance << endl;
             if(lowInterest)
                 cout << "Is Low Interest?: " << "True" << endl;
             else
@@ -273,6 +275,7 @@ class serviceChargeChecking : public checkingAccount
             setCheckLimit(checkLimit);
             setMonthlyCharge(monthlyCharge);
             setInterest(0);
+            setMinimumBalance(0.00);
         }
 
         int getCheckLimit() {return this->checkLimit;}
